@@ -8,11 +8,18 @@ export default function Home() {
   const [selectedPrefecture, setSelectedPrefecture] = useState<number[] | null>(
     null
   );
+
+  const handleSelectorChange = (prefCode: number, checked: boolean) => {
+    setSelectedPrefecture((prev) =>
+      checked
+        ? [...(prev || []), prefCode]
+        : (prev || []).filter((p) => p !== prefCode)
+    );
+  };
+
   return (
     <div className={styles.page}>
-      <Selector
-        onChange={(prefCode: number[]) => setSelectedPrefecture(prefCode)}
-      />
+      <Selector onChange={handleSelectorChange} />
     </div>
   );
 }

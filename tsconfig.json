@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "types": [
+      "jest",
+      "node"
+    ],
     "lib": [
       "dom",
       "dom.iterable",
@@ -16,6 +20,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "plugins": [
       {
         "name": "next"
@@ -31,8 +38,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "jest.setup.js", "jest.config.js"  ],
+    ".next/types/**/*.ts",
+    "jest.setup.js",
+    "jest.config.js"
+  ],
   "exclude": [
     "node_modules"
   ]
