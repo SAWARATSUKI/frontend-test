@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
-import '@testing-library/jest-dom';
-import fetchMock from 'jest-fetch-mock';
+import fetchMock from 'jest-fetch-mock'; // Fetchのモックを有効化
 
-// グローバルの fetch をモック
+// Fetch APIをモック
 fetchMock.enableMocks();

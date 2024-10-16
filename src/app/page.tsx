@@ -5,17 +5,14 @@ import Selector from '@/components/Selector';
 import Chart from '@/components/Chart';
 import { useEffect, useState } from 'react';
 import React from 'react';
+import { getPopulationData } from '@/server/actions';
 const labelTypes = {
   total: '総人口',
   youth: '年少人口',
   workin_age: '生産年齢人口',
   elderly: '老年人口',
 };
-interface PopulationData {
-  year: number;
-  value: number;
-  prefName: string;
-}
+
 export default function Home() {
   // 選択された都道府県と人口タイプを管理するステート
   const [selectedPrefecture, setSelectedPrefecture] = useState<
@@ -28,19 +25,9 @@ export default function Home() {
 
   // 都道府県の人口データを取得する関数
   const fetchPopulationData = async (prefCode: number, prefName: string) => {
-    console.log('fetch');
-    const response = await fetch(
-      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${prefCode}`,
-      {
-        headers: { 'X-API-KEY': process.env.NEXT_PUBLIC_RESAS_APIKEY! },
-      }
-    );
-    const data = await response.json();
-    const result = data.result.data;
-
-    console.log(result);
+    const response = await getPopulationData(prefCode);
     const typeData =
-      result.find((item: any) => item.label === labelTypes[selectedType])
+      response.find((item: any) => item.label === labelTypes[selectedType])
         ?.data || [];
 
     const formattedData = typeData.map((entry: any) => ({
@@ -48,11 +35,7 @@ export default function Home() {
       value: entry.value,
       prefName: prefName,
     }));
-
-    console.log('fetch3');
     setPopulationData((prevData) => {
-      console.log('popurationData', formattedData);
-      console.log('popurationData', [...prevData, ...formattedData]);
       return [...prevData, ...formattedData];
     });
   };

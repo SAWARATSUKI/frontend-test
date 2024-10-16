@@ -13,6 +13,7 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    "target": "ESNext",
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",

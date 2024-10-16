@@ -1,3 +1,4 @@
+import { prefectureColors } from '@/utils/colors';
 import React from 'react';
 import {
   LineChart,
@@ -24,9 +25,6 @@ interface PopulationChartProps {
 const PopulationChart: React.FC<PopulationChartProps> = ({ data, title }) => {
   // データ全体から年を取得（重複を除く）
   const uniqueYears = Array.from(new Set(data.map((d) => d.year)));
-
-  // 都道府県ごとのデータを色分け
-  const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#0088FE'];
 
   // 各年ごとのデータを年をキーにしてグループ化し、prefNameを使って折れ線を区別
   const formattedData = uniqueYears.map((year) => {
@@ -56,7 +54,7 @@ const PopulationChart: React.FC<PopulationChartProps> = ({ data, title }) => {
                 type="monotone"
                 dataKey={prefName} // 都道府県名をdataKeyとして使用
                 name={prefName} // 都道府県名を表示
-                stroke={colors[index % colors.length]} // 都道府県ごとに色を分ける
+                stroke={prefectureColors[String(index)]} // 都道府県ごとに色を分ける
               />
             )
           )}

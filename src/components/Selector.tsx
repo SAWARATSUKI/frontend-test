@@ -1,5 +1,6 @@
 'use client';
 import { getPrefectures } from '@/server/actions';
+
 import React, { useEffect, useState } from 'react';
 export default function Selector({
   onChange,
@@ -7,9 +8,6 @@ export default function Selector({
   onChange: (prefCode: number, prefName: string, checked: boolean) => void;
 }>) {
   const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
-  const [selectedPrefecture, setSelectedPrefecture] = useState<Prefecture[]>(
-    []
-  );
   useEffect(() => {
     const fetchPrefectures = async () => {
       let response = await getPrefectures();

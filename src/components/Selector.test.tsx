@@ -21,5 +21,5 @@ test('都道府県の選択', async () => {
   expect(checkbox).toBeInTheDocument(); // DOMに存在するか確認
 
   fireEvent.click(checkbox); // クリックイベントを発火
-  expect(onChange).toHaveBeenCalledWith(1, true); //返り値が1,trueであれば良い
+  expect(onChange).toHaveBeenCalledWith(1, '北海道', true); // 返り値が1, true であることを確認
 });
