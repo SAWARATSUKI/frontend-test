@@ -1,0 +1,39 @@
+/* 基本のスタイル */
+.container {
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+/* モバイルデバイス用のスタイル */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  .checkboxLabel {
+    font-size: 14px;
+  }
+}
+
+/* タブレットデバイス用のスタイル */
+@media (min-width: 600px) and (max-width: 900px) {
+  .container {
+    padding: 15px;
+  }
+
+  .checkboxLabel {
+    font-size: 16px;
+  }
+}
+
+/* デスクトップ用のスタイル */
+@media (min-width: 900px) {
+  .container {
+    padding: 20px;
+  }
+
+  .checkboxLabel {
+    font-size: 18px;
+  }
+}

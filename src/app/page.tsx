@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import styles from './page.module.css';
-import Selector from '@/components/Selector';
-import Chart from '@/components/Chart';
+import Selector from '@/app/components/Selector';
+import Chart from '@/app/components/Chart';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { getPopulationData } from '@/server/actions';
@@ -83,7 +83,8 @@ export default function Home() {
         <option value="workin_age">生産年齢人口</option>
         <option value="elderly">老年人口</option>
       </select>
-      <Chart data={populationData} title={selectedType} />
+      <h1 className={styles.title}>{labelTypes[selectedType]}</h1>
+      <Chart data={populationData} />
     </>
   );
 }

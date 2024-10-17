@@ -19,10 +19,9 @@ interface PopulationData {
 
 interface PopulationChartProps {
   data: PopulationData[];
-  title: string;
 }
 
-const PopulationChart: React.FC<PopulationChartProps> = ({ data, title }) => {
+const PopulationChart: React.FC<PopulationChartProps> = ({ data }) => {
   // データ全体から年を取得（重複を除く）
   const uniqueYears = Array.from(new Set(data.map((d) => d.year)));
 
@@ -39,7 +38,6 @@ const PopulationChart: React.FC<PopulationChartProps> = ({ data, title }) => {
 
   return (
     <div>
-      <h2>{title}</h2>
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={formattedData}>
           <CartesianGrid strokeDasharray="3 3" />
