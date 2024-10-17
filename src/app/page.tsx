@@ -19,9 +19,11 @@ export default function Home() {
   const [selectedPrefecture, setSelectedPrefecture] = useState<
     { prefCode: number; prefName: string }[]
   >([]);
+  // 選択された人口タイプ
   const [selectedType, setSelectedType] = useState<
     'total' | 'youth' | 'workin_age' | 'elderly'
   >('total');
+  // チャートに表示する人口データ
   const [populationData, setPopulationData] = useState<PopulationData[]>([]);
 
   // チャートの読み込み状態
