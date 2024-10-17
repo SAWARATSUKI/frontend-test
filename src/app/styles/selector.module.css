@@ -1,10 +1,11 @@
-/* 基本のスタイル */
 .container {
   padding: 20px;
   background-color: #f0f0f0;
   border-radius: 8px;
 }
-
+.prefecture_label input {
+  margin-left: 15px;
+}
 /* モバイルデバイス用のスタイル */
 @media (max-width: 600px) {
   .container {

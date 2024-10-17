@@ -73,18 +73,23 @@ export default function Home() {
   }, [selectedPrefecture, selectedType]);
 
   return (
-    <>
-      <div>
-        <Selector onChange={handleSelectorChange} />
-      </div>
-      <select onChange={handleTypeChange} value={selectedType}>
+    <div className={styles.main}>
+      {/* 都道府県を選択する */}
+      <Selector onChange={handleSelectorChange} />
+      {/* 表示するタイプの変更 */}
+      <select
+        className={styles.select_view}
+        onChange={handleTypeChange}
+        value={selectedType}
+      >
         <option value="total">総人口</option>
         <option value="youth">年少人口</option>
         <option value="workin_age">生産年齢人口</option>
         <option value="elderly">老年人口</option>
       </select>
+      {/* チャートの表示 */}
       <h1 className={styles.title}>{labelTypes[selectedType]}</h1>
       <Chart data={populationData} />
-    </>
+    </div>
   );
 }

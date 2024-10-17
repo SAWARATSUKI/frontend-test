@@ -13,7 +13,7 @@ const PrefectureLabelElement = ({
   onChange: (prefCode: number, prefName: string, checked: boolean) => void;
 }>) => {
   return (
-    <label>
+    <label className={styles.prefecture_label}>
       <input
         type="checkbox"
         value={prefCode}
