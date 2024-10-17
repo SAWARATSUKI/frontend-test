@@ -1,4 +1,5 @@
 import { prefectureColors } from '@/utils/colors';
+import loadingStyles from '@/app/styles/loading.module.css';
 import React from 'react';
 import {
   LineChart,
@@ -10,6 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import Loading from './Loading';
 
 interface PopulationData {
   year: number;
@@ -19,9 +21,10 @@ interface PopulationData {
 
 interface PopulationChartProps {
   data: PopulationData[];
+  loading: boolean;
 }
 
-const PopulationChart: React.FC<PopulationChartProps> = ({ data }) => {
+const PopulationChart: React.FC<PopulationChartProps> = ({ data, loading }) => {
   // データ全体から年を取得（重複を除く）
   const uniqueYears = Array.from(new Set(data.map((d) => d.year)));
 
@@ -37,7 +40,8 @@ const PopulationChart: React.FC<PopulationChartProps> = ({ data }) => {
   });
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
+      <Loading loading={loading} />
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={formattedData}>
           <CartesianGrid strokeDasharray="3 3" />

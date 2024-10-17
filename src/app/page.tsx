@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import Selector from '@/app/components/Selector';
 import Chart from '@/app/components/Chart';
+import Loading from '@/app/components/Loading';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { getPopulationData } from '@/server/actions';
@@ -23,21 +24,30 @@ export default function Home() {
   >('total');
   const [populationData, setPopulationData] = useState<PopulationData[]>([]);
 
+  // チャートの読み込み状態
+  const [loadingChart, setLoadingChart] = useState<boolean>(true);
+
   // 都道府県の人口データを取得する関数
   const fetchPopulationData = async (prefCode: number, prefName: string) => {
-    const response = await getPopulationData(prefCode);
-    const typeData =
-      response.find((item: any) => item.label === labelTypes[selectedType])
-        ?.data || [];
+    setLoadingChart(true);
+    try {
+      const response = await getPopulationData(prefCode);
+      const typeData =
+        response.find((item: any) => item.label === labelTypes[selectedType])
+          ?.data || [];
 
-    const formattedData = typeData.map((entry: any) => ({
-      year: entry.year,
-      value: entry.value,
-      prefName: prefName,
-    }));
-    setPopulationData((prevData) => {
-      return [...prevData, ...formattedData];
-    });
+      const formattedData = typeData.map((entry: any) => ({
+        year: entry.year,
+        value: entry.value,
+        prefName: prefName,
+      }));
+      setPopulationData((prevData) => {
+        return [...prevData, ...formattedData];
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    setLoadingChart(false);
   };
 
   // 選択された都道府県の変更を受け取る関数
@@ -89,7 +99,7 @@ export default function Home() {
       </select>
       {/* チャートの表示 */}
       <h1 className={styles.title}>{labelTypes[selectedType]}</h1>
-      <Chart data={populationData} />
+      <Chart data={populationData} loading={loadingChart} />
     </div>
   );
 }
