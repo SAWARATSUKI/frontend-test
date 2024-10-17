@@ -84,6 +84,7 @@ export default function Home() {
 
   return (
     <div className={styles.main}>
+      <h1>都道府県別人口推移</h1>
       {/* 都道府県を選択する */}
       <Selector onChange={handleSelectorChange} />
       {/* 表示するタイプの変更 */}
