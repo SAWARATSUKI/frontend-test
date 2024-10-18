@@ -6,9 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,scss}'",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "dependencies": {
     "next": "14.2.15",
@@ -17,16 +17,27 @@
     "recharts": "^2.13.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.25.8",
+    "@babel/plugin-transform-runtime": "^7.25.7",
+    "@babel/preset-env": "^7.25.8",
+    "@babel/preset-react": "^7.25.7",
+    "@babel/preset-typescript": "^7.25.7",
+    "@babel/runtime": "^7.25.7",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/testing-library__jest-dom": "^6.0.0",
+    "babel-jest": "^29.7.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.15",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-fetch-mock": "^3.0.3",
     "prettier": "^3.3.3",
     "typescript": "^5"
   }
