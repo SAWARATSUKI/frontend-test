@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Selector from './Selector';
+import Selector from '../Selector';
 
 beforeEach(() => {
   fetchMock.resetMocks(); // 各テスト前にモックをリセット
