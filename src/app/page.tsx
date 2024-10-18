@@ -1,10 +1,9 @@
 'use client';
-import Image from 'next/image';
+export const runtime = 'edge';
 import styles from './page.module.css';
 import Selector from '@/app/components/Selector';
 import Chart from '@/app/components/Chart';
-import Loading from '@/app/components/Loading';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 import { getPopulationData } from '@/server/actions';
 const labelTypes = {
@@ -30,27 +29,40 @@ export default function Home() {
   const [loadingChart, setLoadingChart] = useState<boolean>(true);
 
   // 都道府県の人口データを取得する関数
-  const fetchPopulationData = async (prefCode: number, prefName: string) => {
-    setLoadingChart(true);
-    try {
-      const response = await getPopulationData(prefCode);
-      const typeData =
-        response.find((item: any) => item.label === labelTypes[selectedType])
-          ?.data || [];
+  const fetchPopulationData = useCallback(
+    async (prefCode: number, prefName: string) => {
+      setLoadingChart(true);
+      try {
+        const response = await getPopulationData(prefCode);
+        const typeData =
+          response.find(
+            (item: ResponsePopulation) =>
+              item.label === labelTypes[selectedType]
+          )?.data || [];
 
-      const formattedData = typeData.map((entry: any) => ({
-        year: entry.year,
-        value: entry.value,
-        prefName: prefName,
-      }));
-      setPopulationData((prevData) => {
-        return [...prevData, ...formattedData];
-      });
-    } catch (e) {
-      console.error(e);
-    }
-    setLoadingChart(false);
-  };
+        const formattedData = typeData.map((entry) => ({
+          year: entry.year,
+          value: entry.value,
+          prefName: prefName,
+        }));
+        setPopulationData((prevData) => [...prevData, ...formattedData]);
+      } catch (e) {
+        console.error(e);
+      }
+      setLoadingChart(false);
+    },
+    [selectedType] // selectedTypeに依存
+  );
+
+  // 選択された都道府県や人口タイプが変更された時にデータを取得
+  useEffect(() => {
+    // 各都道府県ごとにデータを取得
+    setPopulationData([]); // 以前のデータをクリア
+    if (!selectedPrefecture) return;
+    selectedPrefecture.forEach((prefCode) => {
+      fetchPopulationData(prefCode.prefCode, prefCode.prefName);
+    });
+  }, [selectedPrefecture, selectedType, fetchPopulationData]);
 
   // 選択された都道府県の変更を受け取る関数
   const handleSelectorChange = (
@@ -73,16 +85,6 @@ export default function Home() {
       e.target.value as 'total' | 'youth' | 'workin_age' | 'elderly'
     );
   };
-
-  useEffect(() => {
-    // 各都道府県ごとにデータを取得
-    setPopulationData([]); // 以前のデータをクリア
-    if (!selectedPrefecture) return;
-    selectedPrefecture.forEach((prefCode) => {
-      console.log(prefCode);
-      fetchPopulationData(prefCode.prefCode, prefCode.prefName);
-    });
-  }, [selectedPrefecture, selectedType]);
 
   return (
     <div className={styles.main}>

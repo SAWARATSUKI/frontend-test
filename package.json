@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,scss}'",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "dependencies": {
     "next": "14.2.15",
@@ -26,6 +26,8 @@
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^29.5.13",
+    "@types/mocha": "^10.0.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

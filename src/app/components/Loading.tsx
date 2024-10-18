@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import React from 'react';
 import styles from '@/app/styles/loading.module.css';
 interface LoadingProps {

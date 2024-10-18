@@ -1,4 +1,5 @@
 'use client';
+export const runtime = 'edge';
 import { getPrefectures } from '@/server/actions';
 import Loading from '@/app/components/Loading';
 import styles from './../styles/selector.module.css';
@@ -51,7 +52,8 @@ export default function Selector({
         <div className={styles.selector}>
           {prefectures.map((prefecture) => {
             return (
-              <>
+              // <>にkeyを指定することで、React.Fragmentにkeyを指定できる
+              <React.Fragment key={prefecture.prefCode}>
                 {/* 地方ごとにLabelを分ける */}
                 {(() => {
                   if (prefecture.prefCode === 1) {
@@ -78,7 +80,7 @@ export default function Selector({
                   prefName={prefecture.prefName}
                   onChange={onChange}
                 />
-              </>
+              </React.Fragment>
             );
           })}
         </div>
