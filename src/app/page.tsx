@@ -1,9 +1,8 @@
 'use client';
-import Image from 'next/image';
+export const runtime = 'edge';
 import styles from './page.module.css';
 import Selector from '@/app/components/Selector';
 import Chart from '@/app/components/Chart';
-import Loading from '@/app/components/Loading';
 import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 import { getPopulationData } from '@/server/actions';

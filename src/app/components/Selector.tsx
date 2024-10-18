@@ -1,4 +1,5 @@
 'use client';
+export const runtime = 'edge';
 import { getPrefectures } from '@/server/actions';
 import Loading from '@/app/components/Loading';
 import styles from './../styles/selector.module.css';

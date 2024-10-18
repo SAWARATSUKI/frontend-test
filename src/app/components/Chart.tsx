@@ -1,5 +1,5 @@
+export const runtime = 'edge';
 import { prefectureColors } from '@/utils/colors';
-import loadingStyles from '@/app/styles/loading.module.css';
 import React from 'react';
 import {
   LineChart,
