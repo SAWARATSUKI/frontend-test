@@ -6,7 +6,7 @@
 
 ## 🚀 デプロイリンク
 
-デプロイURL:
+https://2e5ee007.frontend-test-e2j.pages.dev/
 
 ---
 
