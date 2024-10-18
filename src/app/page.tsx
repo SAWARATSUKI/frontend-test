@@ -61,7 +61,6 @@ export default function Home() {
     setPopulationData([]); // 以前のデータをクリア
     if (!selectedPrefecture) return;
     selectedPrefecture.forEach((prefCode) => {
-      console.log(prefCode);
       fetchPopulationData(prefCode.prefCode, prefCode.prefName);
     });
   }, [selectedPrefecture, selectedType, fetchPopulationData]);
