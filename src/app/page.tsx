@@ -1,95 +1,108 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+import Image from 'next/image';
+import styles from './page.module.css';
+import Selector from '@/app/components/Selector';
+import Chart from '@/app/components/Chart';
+import Loading from '@/app/components/Loading';
+import { useEffect, useState } from 'react';
+import React from 'react';
+import { getPopulationData } from '@/server/actions';
+const labelTypes = {
+  total: '総人口',
+  youth: '年少人口',
+  workin_age: '生産年齢人口',
+  elderly: '老年人口',
+};
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // 選択された都道府県と人口タイプを管理するステート
+  const [selectedPrefecture, setSelectedPrefecture] = useState<
+    { prefCode: number; prefName: string }[]
+  >([]);
+  // 選択された人口タイプ
+  const [selectedType, setSelectedType] = useState<
+    'total' | 'youth' | 'workin_age' | 'elderly'
+  >('total');
+  // チャートに表示する人口データ
+  const [populationData, setPopulationData] = useState<PopulationData[]>([]);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  // チャートの読み込み状態
+  const [loadingChart, setLoadingChart] = useState<boolean>(true);
+
+  // 都道府県の人口データを取得する関数
+  const fetchPopulationData = async (prefCode: number, prefName: string) => {
+    setLoadingChart(true);
+    try {
+      const response = await getPopulationData(prefCode);
+      const typeData =
+        response.find((item: any) => item.label === labelTypes[selectedType])
+          ?.data || [];
+
+      const formattedData = typeData.map((entry: any) => ({
+        year: entry.year,
+        value: entry.value,
+        prefName: prefName,
+      }));
+      setPopulationData((prevData) => {
+        return [...prevData, ...formattedData];
+      });
+    } catch (e) {
+      console.error(e);
+    }
+    setLoadingChart(false);
+  };
+
+  // 選択された都道府県の変更を受け取る関数
+  const handleSelectorChange = (
+    prefCode: number,
+    prefName: string,
+    checked: boolean
+  ) => {
+    setSelectedPrefecture((prev) =>
+      checked
+        ? // チェックがついている場合は都道府県コードを追加
+          [...(prev || []), { prefCode, prefName }]
+        : // チェックが外れている場合は都道府県コードを削除
+          (prev || []).filter((p) => p.prefCode !== prefCode)
+    );
+  };
+
+  // 人口タイプの変更を受け取る関数
+  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedType(
+      e.target.value as 'total' | 'youth' | 'workin_age' | 'elderly'
+    );
+  };
+
+  useEffect(() => {
+    // 各都道府県ごとにデータを取得
+    setPopulationData([]); // 以前のデータをクリア
+    if (!selectedPrefecture) return;
+    selectedPrefecture.forEach((prefCode) => {
+      console.log(prefCode);
+      fetchPopulationData(prefCode.prefCode, prefCode.prefName);
+    });
+  }, [selectedPrefecture, selectedType]);
+
+  return (
+    <div className={styles.main}>
+      <h1>都道府県別人口推移</h1>
+      {/* 都道府県を選択する */}
+      <Selector onChange={handleSelectorChange} />
+      {/* 表示するタイプの変更 */}
+      <select
+        className={styles.select_view}
+        onChange={handleTypeChange}
+        value={selectedType}
+      >
+        <option value="total">総人口</option>
+        <option value="youth">年少人口</option>
+        <option value="workin_age">生産年齢人口</option>
+        <option value="elderly">老年人口</option>
+      </select>
+      {/* チャートの表示 */}
+      <h1 className={styles.title}>{labelTypes[selectedType]}</h1>
+      <Chart data={populationData} loading={loadingChart} />
     </div>
   );
 }
