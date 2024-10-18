@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 都道府県別の総人口推移グラフ表示SPA
 
-## Getting Started
+[RESAS API](https://opendata.resas-portal.go.jp/)を使用した、都道府県別の総人口推移グラフを表示するSPAです。
 
-First, run the development server:
+都道府県を選択し、各都道府県の人口データをグラフで動的に表示します。
+
+## 🚀 デプロイリンク
+
+デプロイURL:
+
+---
+
+## 📚 目次
+
+- [🌍 都道府県別の総人口推移グラフ表示SPA](#-都道府県別の総人口推移グラフ表示spa)
+  - [🚀 デプロイリンク](#-デプロイリンク)
+  - [📚 目次](#-目次)
+  - [🌟 機能](#-機能)
+  - [🔧 使用技術](#-使用技術)
+  - [🛠️ セットアップ](#️-セットアップ)
+    - [1. **リポジトリのクローン**](#1-リポジトリのクローン)
+    - [2. **パッケージのインストール**](#2-パッケージのインストール)
+    - [3. **サーバー起動**](#3-サーバー起動)
+  - [🔑 APIキーの設定](#-apiキーの設定)
+  - [🧩 コンポーネントの構成](#-コンポーネントの構成)
+  - [🧪 テスト](#-テスト)
+    - [1. **テストの実行**](#1-テストの実行)
+    - [2. **テスト内容**](#2-テスト内容)
+
+---
+
+## 🌟 機能
+
+1. **都道府県の一覧を表示**: RESAS APIから都道府県一覧を取得し、チェックボックス形式で表示。
+2. **人口データの表示**: 選択された都道府県の総人口データを取得し、動的にグラフに表示。
+3. **複数選択可能**: 複数の都道府県を選択して、複数のデータセットを比較表示。
+4. **人口の種類を選択可能**: 総人口、年少人口、生産年齢人口、老年人口のデータを切り替えられるように。
+
+---
+
+## 🔧 使用技術
+
+- **フロントエンド**: [Next.js](https://nextjs.org/) (App Router)
+- **グラフ描画**: [Chart.js](https://www.chartjs.org/) を使用した動的な折れ線グラフ
+- **読み込みアニメーション**: カスタムCSSを使用してスケルトンエフェクトを実装
+- **テストフレームワーク**: [Jest](https://jestjs.io/) + [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+- **言語**: TypeScript
+- **API**: [RESAS API](https://opendata.resas-portal.go.jp/)
+
+---
+
+## 🛠️ セットアップ
+
+### 1. **リポジトリのクローン**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/SAWARATSUKI/frontend-test.git
+cd frontend-test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. **パッケージのインストール**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. **サーバー起動**
 
-## Learn More
+```bash
+npm run test
+```
 
-To learn more about Next.js, take a look at the following resources:
+デフォルトでlocalhost:3000でサーバーが起動します。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔑 APIキーの設定
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+このアプリケーションは、RESAS APIを使用してデータを取得します。
 
-## Deploy on Vercel
+RESAS APIキーを取得し、環境変数に設定してください。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. RESAS APIキーの取得
+   RESAS APIの公式サイトにアクセスし、APIキーを取得してください。
+2. 環境変数の設定
+   プロジェクトのルートディレクトリに.env.localファイルを作成し、次の内容を追加します:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```plaintext
+RESAS_API_KEY=ここにAPIキーを配置
+```
+
+APIキーを.env.localに設定したら、アプリケーションを再起動してください。
+
+## 🧩 コンポーネントの構成
+
+コンポーネントは`/src/app/components/`にあるコンポーネントです。
+以下にコンポーネントを配置しています。
+主要コンポーネント
+
+`Selector.tsx`:
+都道府県の一覧を表示し、ユーザーがチェックボックスで選択できるコンポーネント
+
+`Chart.tsx`:選択された都道府県の人口データを動的に表示するグラフコンポーネントです
+
+`Loading.tsx`: スケルトンローディングアニメーションを表示する共通コンポーネント
+
+## 🧪 テスト
+
+### 1. **テストの実行**
+
+テストはJestとReact Testing Libraryを使用しています。
+以下のコマンドでテストを実行できます。
+
+テストファイルは`/src/app/components/test/`にあります。
+
+```bash
+npm run test
+```
+
+### 2. **テスト内容**
+
+`Selectorコンポーネント`: 都道府県が正常に表示され、選択できるか確認。
+
+`Chartコンポーネント`: 正しいデータがチャートに表示されるか確認。
+
+`Loadingコンポーネント`: ローディングアニメーションが正しく表示されるか確認。
